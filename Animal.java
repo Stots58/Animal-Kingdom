@@ -43,20 +43,27 @@ public class Animal {
 // - A protected String field called sound (e.g., "growl")
 // - A constructor that uses super to set name and sets these fields
 // - Override speak() to print the value of sound prefixed by name
-class Mammal {
+class Mammal extends Animal {
     protected boolean warmBlooded = true;
     protected String dietType;
     protected int numLegs;
     protected String sound;
 
-    public Mammal(){
-        super();
+    public Mammal(String name, boolean warmBlooded, String dietType, int numLegs, String sound){
+        super(name);
+        this.warmBlooded = warmBlooded;
+        this.dietType = dietType;
+        this.numLegs = numLegs;
+        this.sound = sound;
+    }
+    public void performTrick(){
+        System.out.println("Animal when to a NC State Game.");
     }
 
-    // @Override
+    @Override
     public void speak(){
-        // use dot notation to sout the value of sound prefixed by name
-        // System.out.println(Animal.);
+        // use dot notation to print the value of sound prefixed by name
+        System.out.println(this.name + "says: " + this.sound);
     }
 }
 
@@ -64,28 +71,50 @@ class Mammal {
 // TODO: Define a class Dog that extends Mammal
 // - Constructor takes name and passes name, true, "omnivore", 4, "Woof!" to super
 // - Override speak() to print "<name> says: Woof!"
-class dog extends Mammal{
+class Dog extends Mammal{
+    public Dog(String name){
+        super(name, true, "omnivore", 4, "Woof!");
+    }
 
-    // @Override
+    @Override
     public void speak(){
-        System.out.println("<name> says: Woof!");
+        System.out.println(this.name + " says: " + this.sound);
     }
 }
 
 // TODO: Define a class Cat that extends Mammal
 // - Constructor takes name and passes name, true, "carnivore", 4, "Meow!" to super
 // - Override speak() to print "<name> says: Meow!"
-class cat extends Mammal{
-    // @Override
+class Cat extends Mammal{
+    public Cat(String name){
+        super(name, true, "carnivore", 4, "Meow!");
+    }
+
+    @Override
+    public boolean equals(Object o){
+        // it should override only if the methods of Animal are equal if they have the same name
+        // default checks if memory is the same
+        // it checks if it's Animal if so...
+
+        if (o instanceof Cat) {
+            return this.name == ((Cat)o).name;
+        }
+        else
+            return false;
+    }
+
+    @Override
     public void speak(){
-        System.out.println("<name> says: Meow!");
+        System.out.println(this.name +" says: " + this.sound);
     }
 }
 
 // TODO: Define a final class Human that extends Mammal
 // - Constructor takes name and passes name, true, "omnivore", 2, "Hello!" to super
 final class Human extends Mammal{
-
+    public Human(String name){
+        super(name, true, "omnivore", 2, "Hello!");
+    }
 }
 
 // TODO: Define a class Reptile that extends Animal
@@ -93,7 +122,22 @@ final class Human extends Mammal{
 // - Constructor should take all values and use super for name
 // - Override speak() to print the value of sound prefixed by name
 class Reptile extends Animal{
+    boolean warmBlooded = false;
+    int numLegs;
+    String dietType;
+    String sound;
+    public Reptile(String name, boolean warmBlooded, int numLegs, String dietType, String sound){
+        super(name);
+        this.warmBlooded = warmBlooded;
+        this.numLegs = numLegs;
+        this.dietType = dietType;
+        this.sound = sound;
+    }
 
+    @Override
+    public void speak(){
+        System.out.println(this.name + "says: " + this.sound);
+    }
 }
 
 // Main class to test
@@ -105,12 +149,41 @@ class Reptile extends Animal{
 // - Use equals() to compare a1 to a new Dog("Buddy")
 class AnimalKingdomTest {
     public static void main(String[] args) {
+        Animal a1 = new Dog("Buddy");
+        Animal a2 = new Cat("Whiskers");
 
+        a1.speak();
+        a2.speak();
+
+        System.out.println(a1.toString());
+        System.out.println(a2.toString());
+
+        System.out.println(a1.equals(new Dog("Buddy")));
+
+        Animal trick = new Mammal("NC State", true, "UNC", 4, "WOLF PACK!");
+        Mammal Wisky = (Mammal)trick;
+        Wisky.performTrick();
     }
 }
 
 // Additional TODOs:
 // 1. Create a new subclass of Animal (e.g., Bird) and override speak()
+class Bird extends Animal{
+    public Bird(String name) {
+        super(name);
+    }
+    @Override
+    public void speak(){
+        System.out.println(this.name);
+    }
+}
+
 // 2. Try to extend Human – what happens and why?
+class Syed extends Human{
+    // Since Human is set to "final" it can not have a child/it can't extend. Won't Run.
+}
+
 // 3. Override equals() in Dog or Cat to also check the type
+// I added equals to Cat
+
 // 4. Add a method to Mammal called performTrick() and call it via downcasting
